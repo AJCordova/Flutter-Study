@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quizbrain.dart';
 
 QuizBrain quizBrain = QuizBrain();
@@ -51,6 +52,31 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
+  void checkUserAnswer(bool userAnswer){
+    bool chosenAnswer = quizBrain.getQuestionAnswer();
+
+    setState(() {
+      if (quizBrain.isFinished()) {
+        Alert(
+          context: context,
+          title: 'Finished!',
+          desc: 'You\'ve reached the end of the quiz.',
+        ).show();
+
+        quizBrain.reset();
+        scoreKeeper = [];
+      } else {
+        if (chosenAnswer == userAnswer) {
+          scoreKeeper.add(correctAnswerIcon());
+        } else {
+          scoreKeeper.add(wrongAnswerIcon());
+        }
+
+        quizBrain.nextQuestion();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -86,16 +112,7 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 onPressed: () {
-                  setState(() {
-                    bool chosenAnswer = quizBrain.getQuestionAnswer();
-                    if (chosenAnswer == true) {
-                      scoreKeeper.add(correctAnswerIcon());
-                    } else {
-                      scoreKeeper.add(wrongAnswerIcon());
-                    }
-
-                    quizBrain.nextQuestion();
-                  });
+                  checkUserAnswer(true);
                 },
               )
           ),
@@ -113,16 +130,7 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 onPressed: () {
-                  setState(() {
-                    bool chosenAnswer = quizBrain.getQuestionAnswer();
-                    if (chosenAnswer == false) {
-                      scoreKeeper.add(correctAnswerIcon());
-                    } else {
-                      scoreKeeper.add(wrongAnswerIcon());
-                    }
-
-                    quizBrain.nextQuestion();;
-                  });
+                  checkUserAnswer(false);
                 },
               )
           ),
