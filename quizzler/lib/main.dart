@@ -65,7 +65,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quizBrain.questionBank[questionNumber].questionText,
+                quizBrain.getQuestion(questionNumber),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 25.0,
@@ -89,7 +89,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 onPressed: () {
                   setState(() {
-                    bool chosenAnswer = quizBrain.questionBank[questionNumber].questionAnswer;
+                    bool chosenAnswer = quizBrain.getQuestionAnswer(questionNumber);
                     if (chosenAnswer == true) {
                       scoreKeeper.add(correctAnswerIcon());
                     } else {
@@ -116,7 +116,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 onPressed: () {
                   setState(() {
-                    bool chosenAnswer = quizBrain.questionBank[questionNumber].questionAnswer;
+                    bool chosenAnswer = quizBrain.getQuestionAnswer(questionNumber);
                     if (chosenAnswer == false) {
                       scoreKeeper.add(correctAnswerIcon());
                     } else {
